@@ -1,0 +1,15 @@
+{
+  "name": "skills",
+  "version": "0.1.0",
+  "description": "skarl86's personal collection of Claude Code skills",
+  "author": {
+    "name": "skarl86",
+    "url": "https://github.com/skarl86"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/skarl86/skills",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skarl86/skills"
+  }
+}

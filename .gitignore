@@ -1,1 +1,4 @@
 .DS_Store
+
+# Skill development workspaces (per-skill, used for evals/iteration)
+skills/*-workspace/

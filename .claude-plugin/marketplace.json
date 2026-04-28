@@ -7,7 +7,10 @@
   "plugins": [
     {
       "name": "skills",
-      "source": ".",
+      "source": {
+        "source": "github",
+        "repo": "skarl86/skills"
+      },
       "description": "skarl86's personal collection of Claude Code skills"
     }
   ]

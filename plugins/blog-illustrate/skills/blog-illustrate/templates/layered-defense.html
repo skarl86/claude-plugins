@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+  다층 방어 / 적층 다이어그램.
+  용도: 위험 시나리오 → 여러 layer 차단 → 안전 결과.
+  viewport 권장: 920x760
+-->
+<html lang="ko"><head><meta charset="utf-8"><title>layered-defense</title>
+<link rel="stylesheet" href="_common.css">
+<style>
+  .canvas {
+    background: #1e1e2e; border-radius: 12px;
+    padding: 30px 32px;
+    box-shadow: 0 14px 36px -10px rgba(20,30,60,0.22);
+  }
+  .danger {
+    background: linear-gradient(180deg, #4a2030 0%, #3a182a 100%);
+    border: 1px solid rgba(255, 85, 85, 0.3);
+    border-radius: 8px;
+    padding: 12px 18px;
+    color: #ff5555;
+    text-align: center;
+    font-family: 'SF Pro Text', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .danger .lbl { color: #ff5555; font-size: 11px; letter-spacing: 0.4px; font-family: 'SF Mono', Menlo, monospace; text-transform: uppercase; display: block; margin-bottom: 4px; opacity: 0.8; }
+  .arrow-d { text-align: center; color: #6272a4; font-size: 18px; margin: 6px 0; }
+  .layer {
+    background: #2a2a3c;
+    border-left: 4px solid #8be9fd;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 8px 0;
+    color: #e8e8f0;
+    font-family: 'SF Pro Text', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    display: grid;
+    grid-template-columns: 96px 1fr 110px;
+    gap: 14px;
+    align-items: center;
+  }
+  .layer .layer-num { color: #8be9fd; font-family: 'SF Mono', Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.4px; }
+  .layer code { background: rgba(0,0,0,0.25); padding: 1px 5px; border-radius: 3px; color: #f1fa8c; font-family: 'SF Mono', Menlo, monospace; font-size: 12px; }
+  .layer .reject { text-align: right; color: #ff5555; font-weight: 700; font-family: 'SF Mono', Menlo, monospace; font-size: 12px; }
+  .safe {
+    background: linear-gradient(180deg, #1f3a3a 0%, #182d2d 100%);
+    border: 1px solid rgba(80,250,123,0.3);
+    border-radius: 8px;
+    padding: 12px 18px;
+    color: #50fa7b;
+    text-align: center;
+    font-family: 'SF Pro Text', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    max-width: 520px;
+    margin: 12px auto 0;
+  }
+  .safe .lbl { color: #50fa7b; font-size: 11px; letter-spacing: 0.4px; font-family: 'SF Mono', Menlo, monospace; text-transform: uppercase; display: block; margin-bottom: 4px; opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container" style="max-width:920px">
+  <div class="canvas">
+
+    <div class="danger">
+      <span class="lbl">위험 시나리오</span>
+      위험한 행위 한 줄 (예: 실고객 데이터 복붙)
+    </div>
+
+    <div class="arrow-d">↓</div>
+
+    <div class="layer">
+      <div class="layer-num">LAYER 1</div>
+      <div><strong>1차 가드</strong> · 검사 조건 (<code>코드</code>)</div>
+      <div class="reject">REJECT</div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-num">LAYER 2</div>
+      <div><strong>2차 가드</strong> · 검사 조건</div>
+      <div class="reject">REJECT</div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-num">LAYER 3</div>
+      <div><strong>3차 가드</strong> · 검사 조건</div>
+      <div class="reject">FAIL</div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-num">LAYER 4</div>
+      <div><strong>최종 가드</strong> · 외부 거절</div>
+      <div class="reject">UPSTREAM 4xx</div>
+    </div>
+
+    <div class="safe">
+      <span class="lbl">결과</span>
+      안전 보장 한 줄 ✓
+    </div>
+
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+  단일 터미널 패널.
+  용도: 명령 호출 + 출력, 폴더 트리, 코드 블록 시연 등.
+  viewport 권장: 920x500~700 (콘텐츠 높이에 맞춤)
+-->
+<html lang="ko"><head><meta charset="utf-8"><title>terminal-single</title>
+<link rel="stylesheet" href="_common.css">
+</head>
+<body>
+<div class="container" style="max-width:880px">
+
+  <div class="terminal">
+    <div class="titlebar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span class="title">claude-code · ~/workspace</span>
+    </div>
+<pre><span class="prompt">$</span> <span class="cmd">/your-command</span> some-arg
+
+<span class="comment">설명 한 줄 (왜 이걸 보여주는지)</span>
+
+<span class="folder">example-folder/</span>
+<span class="tree">├──</span> <span class="file">file1.md</span>      <span class="comment"># 코멘트</span>
+<span class="tree">├──</span> <span class="folder">subdir/</span>
+<span class="tree">│   └──</span> <span class="file">deep.md</span>
+<span class="tree">└──</span> <span class="file">file2.yaml</span>
+
+<span class="arrow">→</span> <span class="comment">결과 / next-action 한 줄</span>
+</pre>
+  </div>
+
+</div>
+</body></html>

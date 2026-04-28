@@ -1,0 +1,12 @@
+{
+  "name": "blog-illustrate",
+  "version": "0.1.0",
+  "description": "Generate clean illustrations (terminal mockups, decision trees, comparison cards, mapping diagrams, layered defense) for blog posts. Uses HTML/CSS templates rendered to PNG via Playwright, then uploads to a blog MCP and inserts image references into the post body.",
+  "author": {
+    "name": "skarl86",
+    "url": "https://github.com/skarl86"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/skarl86/claude-plugins/tree/main/plugins/blog-illustrate",
+  "repository": "https://github.com/skarl86/claude-plugins"
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+  좌우 두 컬럼 비교 카드.
+  용도: without/with, before/after, optionA/optionB.
+  viewport 권장: 1240x560
+-->
+<html lang="ko"><head><meta charset="utf-8"><title>comparison-cards</title>
+<link rel="stylesheet" href="_common.css">
+<style>
+  .compare-row { display: flex; gap: 18px; }
+  .card {
+    flex: 1;
+    background: #1e1e2e;
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 16px 40px -8px rgba(20,30,60,0.22);
+    overflow: hidden;
+  }
+  .card-head {
+    padding: 14px 20px;
+    font-family: 'SF Pro Text', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+  }
+  .card.left  .card-head { background: linear-gradient(180deg, #4a3142 0%, #3a2434 100%); color: #ff79c6; }
+  .card.right .card-head { background: linear-gradient(180deg, #1f3a3a 0%, #182d2d 100%); color: #50fa7b; }
+  .card-head .sub { float: right; color: #6272a4; font-weight: 400; font-family: 'SF Mono', Menlo, monospace; font-size: 11px; }
+  .card-body { padding: 20px 22px; color: #e8e8f0; font-size: 13px; line-height: 1.7; font-family: 'SF Pro Text', sans-serif; }
+  .card-body .label { color: #6272a4; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; margin-top: 14px; margin-bottom: 4px; }
+  .card-body .label:first-child { margin-top: 0; }
+  .card-body ul { margin: 0; padding-left: 18px; }
+  .card-body li { margin: 3px 0; }
+  .stamp { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-family: 'SF Mono', Menlo, monospace; margin-left: 6px; }
+  .stamp.warn { background: rgba(255, 184, 108, 0.18); color: #ffb86c; }
+  .stamp.ok   { background: rgba(80, 250, 123, 0.15); color: #50fa7b; }
+  .meta { color: #6272a4; font-family: 'SF Mono', Menlo, monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="container" style="max-width:1200px">
+  <div class="compare-row">
+
+    <div class="card left">
+      <div class="card-head">
+        Option A (예: without)
+        <span class="sub">주요 메타 한 줄</span>
+      </div>
+      <div class="card-body">
+        <div class="label">속성 1</div>
+        값 / 설명 <span class="stamp warn">메타</span>
+
+        <div class="label">속성 2</div>
+        값 / 설명
+
+        <div class="label">속성 3</div>
+        <ul>
+          <li>리스트 항목 1</li>
+          <li>리스트 항목 2</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card right">
+      <div class="card-head">
+        Option B (예: within)
+        <span class="sub">주요 메타 한 줄</span>
+      </div>
+      <div class="card-body">
+        <div class="label">속성 1</div>
+        값 / 설명 <span class="stamp ok">대비</span>
+
+        <div class="label">속성 2</div>
+        값 / 설명
+
+        <div class="label">속성 3</div>
+        <ul>
+          <li>리스트 항목 1</li>
+          <li>리스트 항목 2</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body></html>

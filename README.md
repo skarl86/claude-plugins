@@ -17,6 +17,7 @@ Then install whichever plugin(s) you need:
 ```
 /plugin install github-direnv
 /plugin install claude-session-to-md
+/plugin install blog-illustrate
 ```
 
 ## Plugins
@@ -42,6 +43,14 @@ Benchmarked against Claude rolling its own converter from scratch (3-eval suite 
 | Tokens | **17.6 k** | 33.1 k | **−47%** |
 
 Wins on every axis: the baseline writes its own header format instead of YAML frontmatter (breaks dataview / parsers), and flattens subagents next to parents with `__` filename joins (loses navigability).
+
+### [blog-illustrate](plugins/blog-illustrate)
+
+Generate clean illustrations for blog posts when you don't have screenshots — or when the originals leak internal identifiers. HTML/CSS templates (terminal mockups, decision trees, comparison cards, mapping diagrams, layered defense) rendered to PNG via Playwright, uploaded to a blog MCP, and inserted into the post body as image references. All values stay as pseudonyms.
+
+**Use when:** reviewing a text-only draft and wondering "where would a diagram help?", or when original screenshots have PII / internal paths that can't be published as-is.
+
+Bundles 6 ready-to-edit templates with a unified Dracula-inspired dark theme + macOS terminal chrome, so a series of posts shares the same visual tone.
 
 ---
 

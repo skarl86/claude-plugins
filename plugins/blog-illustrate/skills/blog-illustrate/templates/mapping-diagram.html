@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+  좌측 ↔ 우측 매핑 다이어그램.
+  용도: 폴더 → DB row 매핑, 파일 → 모듈 매핑, 입력 → 출력 변환 등.
+  viewport 권장: 1240x600
+-->
+<html lang="ko"><head><meta charset="utf-8"><title>mapping-diagram</title>
+<link rel="stylesheet" href="_common.css">
+<style>
+  .map-row { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: stretch; }
+  .side {
+    background: #1e1e2e; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 14px 36px -10px rgba(20,30,60,0.22);
+  }
+  .side .head {
+    padding: 11px 18px; font-family: 'SF Pro Text', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.3px;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+  }
+  .side.left  .head { background: linear-gradient(180deg, #2a3a4a 0%, #1f2c3a 100%); color: #8be9fd; }
+  .side.right .head { background: linear-gradient(180deg, #3a2c4a 0%, #2a1f3a 100%); color: #bd93f9; }
+  .arrow-col {
+    display: flex; align-items: center; justify-content: center;
+    color: #6272a4; font-size: 24px; font-weight: 700;
+  }
+  pre { padding: 18px 22px; font-size: 12.5px; line-height: 1.65; }
+  .row-tag { color: #ff79c6; font-weight: 600; font-size: 11px; }
+  .table-block { padding: 16px 22px; border-bottom: 1px solid #2a2a3c; }
+  .table-block:last-child { border-bottom: none; }
+  .table-name { color: #bd93f9; font-family: 'SF Mono', Menlo, monospace; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .columns { color: #e8e8f0; font-family: 'SF Mono', Menlo, monospace; font-size: 12px; line-height: 1.7; }
+  .columns .key { color: #8be9fd; }
+  .meta-line { color: #6272a4; font-size: 11px; font-style: italic; margin-top: 6px; font-family: 'SF Pro Text', sans-serif; }
+</style>
+</head>
+<body>
+<div class="container" style="max-width:1200px">
+  <div class="map-row">
+
+    <div class="side left">
+      <div class="head">📁 좌측 (예: 현재 폴더 구조)</div>
+<pre><span class="folder">root/</span>
+<span class="tree">├──</span> <span class="file">item-1.md</span>      <span class="row-tag">→ row #1</span>
+<span class="tree">├──</span> <span class="folder">subdir/</span>
+<span class="tree">│   └──</span> <span class="file">item-2.md</span>  <span class="row-tag">→ row #2</span>
+<span class="tree">└──</span> <span class="file">item-3.yaml</span>    <span class="row-tag">→ row #3</span>
+</pre>
+    </div>
+
+    <div class="arrow-col">⟶</div>
+
+    <div class="side right">
+      <div class="head">🗄 우측 (예: DB 스키마)</div>
+
+      <div class="table-block">
+        <div class="table-name">table_a</div>
+        <div class="columns"><span class="key">id</span> · field1 · field2 · created_at</div>
+        <div class="meta-line">← item-1 metadata 매핑</div>
+      </div>
+
+      <div class="table-block">
+        <div class="table-name">table_b</div>
+        <div class="columns"><span class="key">parent_id</span> · path · body · sha</div>
+        <div class="meta-line">← 각 .md 파일 1 row</div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</body></html>

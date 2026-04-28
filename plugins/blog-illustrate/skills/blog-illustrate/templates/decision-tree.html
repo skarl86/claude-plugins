@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+  의사결정 트리 / 게이트.
+  용도: 분기 로직 (audit 결과별 분기, 에러 처리 분기 등).
+  viewport 권장: 1140x680
+-->
+<html lang="ko"><head><meta charset="utf-8"><title>decision-tree</title>
+<link rel="stylesheet" href="_common.css">
+<style>
+  .canvas {
+    background: #1e1e2e; border-radius: 12px;
+    padding: 36px 36px 30px;
+    box-shadow: 0 14px 36px -10px rgba(20,30,60,0.22);
+  }
+  .center-row { display:flex; justify-content:center; }
+  .vline { width: 2px; height: 22px; background: #44475a; margin: 0 auto; }
+  .hline { height: 2px; background: #44475a; width: calc(100% - 200px); margin: 0 auto; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; align-items: stretch; }
+  .col { display: flex; flex-direction: column; align-items: center; }
+  .arm-label { color: #6272a4; font-family: 'SF Mono', Menlo, monospace; font-size: 11px; margin: 4px 0 8px; text-align: center; }
+  .arm-label.ok   { color: #50fa7b; }
+  .arm-label.warn { color: #ffb86c; }
+  .arm-label.bad  { color: #ff5555; }
+  .node {
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: #e8e8f0;
+    font-family: 'SF Pro Text', sans-serif;
+    font-size: 13px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    line-height: 1.5;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 130px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .node .lbl { font-size: 11px; font-family: 'SF Mono', Menlo, monospace; letter-spacing: 0.5px; margin-bottom: 6px; opacity: 0.85; }
+  .node.gate { background: linear-gradient(180deg, #2a3a4a 0%, #1f2c3a 100%); border-color: rgba(139,233,253,0.3); max-width: 360px; }
+  .node.gate .lbl { color: #8be9fd; }
+  .node.q    { background: #2a2a3c; max-width: 220px; }
+  .node.q   .lbl { color: #6272a4; }
+  .node.ok   { background: linear-gradient(180deg, #1f3a3a 0%, #182d2d 100%); border-color: rgba(80,250,123,0.3); }
+  .node.ok  .lbl { color: #50fa7b; }
+  .node.warn { background: linear-gradient(180deg, #4a3120 0%, #3a2418 100%); border-color: rgba(255,184,108,0.3); }
+  .node.warn .lbl { color: #ffb86c; }
+  .node.bad  { background: linear-gradient(180deg, #4a2030 0%, #3a182a 100%); border-color: rgba(255,85,85,0.3); }
+  .node.bad .lbl { color: #ff5555; }
+  .ctx { color: #6272a4; font-size: 12px; margin-top: 18px; text-align: center; font-style: italic; font-family: 'SF Pro Text', sans-serif; }
+</style>
+</head>
+<body>
+<div class="container" style="max-width:1100px">
+  <div class="canvas">
+
+    <div class="center-row">
+      <div class="node gate">
+        <div class="lbl">진입 시점 / 트리거</div>
+        <strong>게이트 이름</strong>
+        <div style="color:#6272a4; font-size:11px; margin-top:4px">설명 한 줄</div>
+      </div>
+    </div>
+
+    <div class="vline"></div>
+
+    <div class="center-row">
+      <div class="node q">
+        <div class="lbl">분기</div>
+        결과는?
+      </div>
+    </div>
+
+    <div class="vline" style="height:18px"></div>
+    <div class="hline"></div>
+
+    <div class="three-col">
+      <div class="col">
+        <div class="vline"></div>
+        <div class="arm-label ok">조건 A</div>
+        <div class="node ok">
+          <div class="lbl">RESULT_A</div>
+          액션 설명
+        </div>
+      </div>
+      <div class="col">
+        <div class="vline"></div>
+        <div class="arm-label warn">조건 B</div>
+        <div class="node warn">
+          <div class="lbl">RESULT_B</div>
+          액션 설명
+        </div>
+      </div>
+      <div class="col">
+        <div class="vline"></div>
+        <div class="arm-label bad">조건 C</div>
+        <div class="node bad">
+          <div class="lbl">RESULT_C</div>
+          액션 설명
+        </div>
+      </div>
+    </div>
+
+    <div class="ctx">
+      추가 설명 (왜 이 게이트가 중요한지 한 줄)
+    </div>
+
+  </div>
+</div>
+</body></html>

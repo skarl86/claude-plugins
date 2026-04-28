@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+  좌우 두 터미널 패널.
+  용도: 모니터링 setup (한쪽 작업 / 다른쪽 관찰), before/after 한 화면 비교.
+  viewport 권장: 1320x540~700
+-->
+<html lang="ko"><head><meta charset="utf-8"><title>terminal-dual</title>
+<link rel="stylesheet" href="_common.css">
+<style>
+  .live-dot {
+    display: inline-block; width: 8px; height: 8px;
+    border-radius: 50%; background: #50fa7b;
+    margin-right: 5px;
+    box-shadow: 0 0 8px rgba(80,250,123,0.6);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .insight-box {
+    margin: 10px 0;
+    padding: 13px 15px;
+    background: rgba(80, 250, 123, 0.07);
+    border-left: 3px solid #50fa7b;
+    border-radius: 4px;
+  }
+  .insight-box .head { color: #50fa7b; font-weight: 700; font-size: 12px; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .collect-box {
+    margin: 10px 0;
+    padding: 12px 14px;
+    background: rgba(189, 147, 249, 0.08);
+    border-left: 3px solid #bd93f9;
+    border-radius: 4px;
+  }
+  .collect-box .head { color: #bd93f9; font-weight: 700; font-size: 12px; letter-spacing: 0.4px; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+
+    <!-- LEFT PANEL -->
+    <div class="terminal">
+      <div class="titlebar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="title">tmux: left-pane <span class="badge warn">working</span></span>
+      </div>
+<pre><span class="prompt">$</span> <span class="cmd">/some-process</span> running
+
+<span class="comment">[Stage 1]</span>      <span class="ok">✓ done</span>
+<span class="comment">[Stage 2]</span>      <span class="warn">▶ running</span>
+   ├─ sub-task 진행 중
+   └─ another sub-task
+
+<span class="comment">[Stage 3]</span>      <span class="dim">pending</span>
+</pre>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="terminal">
+      <div class="titlebar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="title">tmux: right-pane <span class="badge ok"><span class="live-dot"></span>monitoring</span></span>
+      </div>
+<pre><span class="kw">Monitor active</span> <span class="dim">· polling left-pane</span>
+
+<span class="ok">✓</span> Stage 1 완료
+<span class="spark">▶</span> Stage 2 진행률 60%
+
+<div class="collect-box"><div class="head">📋 자동 수집 (개선점)</div><span class="dim">·</span> 항목 1
+<span class="dim">·</span> 항목 2</div>
+
+<div class="insight-box"><div class="head">✨ 좋은 포인트</div>발견된 강점 한 줄.
+<span class="dim">→ 부가 설명</span></div>
+</pre>
+    </div>
+
+  </div>
+</div>
+</body></html>

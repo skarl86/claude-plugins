@@ -14,6 +14,11 @@
       "name": "claude-session-to-md",
       "source": "./plugins/claude-session-to-md",
       "description": "Convert Claude Code session jsonl logs into per-session markdown files for archive/search."
+    },
+    {
+      "name": "blog-illustrate",
+      "source": "./plugins/blog-illustrate",
+      "description": "Generate clean illustrations (terminal mockups, decision trees, comparison cards) for blog posts. HTML/CSS → Playwright PNG → blog MCP upload → body insertion."
     }
   ]
 }

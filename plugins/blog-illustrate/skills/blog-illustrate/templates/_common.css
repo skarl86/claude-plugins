@@ -1,0 +1,86 @@
+/* blog-illustrate 공통 스타일.
+ * 모든 템플릿이 import. 색 토큰 / 카드 형태 / 타이포 한 곳에서 관리.
+ * Dracula-inspired dark theme + macOS terminal aesthetic.
+ */
+* { box-sizing: border-box; }
+html, body { background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%); }
+body {
+  margin: 0;
+  padding: 40px 30px;
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.container { max-width: 1300px; margin: 0 auto; }
+.row { display: flex; gap: 20px; align-items: stretch; }
+
+/* ---- 카드 (terminal / generic) ---- */
+.terminal {
+  background: #1e1e2e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px -8px rgba(20,30,60,0.22), 0 2px 6px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.05);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* macOS 윈도우 chrome */
+.titlebar {
+  background: linear-gradient(180deg, #34344a 0%, #2a2a3c 100%);
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+.dot { width: 11px; height: 11px; border-radius: 50%; }
+.r { background: #ff5f57; }
+.y { background: #febc2e; }
+.g { background: #28c840; }
+.title {
+  color: #b0b0c0;
+  font-size: 12px;
+  margin-left: 10px;
+  font-family: 'SF Mono', Menlo, monospace;
+  letter-spacing: 0.2px;
+}
+.title .badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: rgba(139, 233, 253, 0.15);
+  color: #8be9fd;
+  border-radius: 4px;
+  font-size: 11px;
+  margin-left: 6px;
+}
+.title .badge.warn { background: rgba(255, 184, 108, 0.15); color: #ffb86c; }
+.title .badge.ok   { background: rgba(80, 250, 123, 0.15); color: #50fa7b; }
+
+/* 코드/터미널 본문 */
+pre {
+  margin: 0;
+  padding: 22px 24px;
+  color: #e8e8f0;
+  font-family: 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---- 색 토큰 ---- */
+.prompt  { color: #50fa7b; font-weight: 700; }   /* shell prompt */
+.cmd     { color: #f1fa8c; }                     /* command */
+.comment { color: #6272a4; font-style: italic; } /* comment */
+.folder  { color: #8be9fd; font-weight: 600; }   /* folder name */
+.file    { color: #e8e8f0; }                     /* file name */
+.tree    { color: #5a637a; }                     /* tree branch chars */
+.arrow   { color: #ff79c6; font-weight: 600; }   /* directional indicator */
+.ok      { color: #50fa7b; font-weight: 600; }   /* success */
+.warn    { color: #ffb86c; }                     /* warning */
+.bad     { color: #ff5555; }                     /* error */
+.dim     { color: #6272a4; }                     /* secondary text */
+.kw      { color: #bd93f9; font-weight: 600; }   /* keyword / tool name */
+.str     { color: #f1fa8c; }                     /* string literal */
+.spark   { color: #ff79c6; font-weight: 700; }   /* highlight bullet */

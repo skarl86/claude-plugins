@@ -47,8 +47,10 @@ If the user named one ("skarl86 계정으로", "work account"), use it.
 
 Otherwise, list available accounts:
 ```bash
-gh auth status 2>&1 | grep -E 'Logged in to.* account' | awk '{print $NF}'
+gh auth status 2>&1 | grep -E 'Logged in to.* account' | sed -E 's/.*account ([^ ]+).*/\1/'
 ```
+
+(Don't use `awk '{print $NF}'` here — the last field is the auth source like `(keyring)`, not the account name.)
 
 If only one account exists, confirm with the user before assuming. If multiple, ask which.
 
@@ -89,24 +91,66 @@ direnv exec . sh -c 'echo "GH_TOKEN length: ${#GH_TOKEN}"; gh api user --jq .log
 
 The output should print a non-zero token length and the target account's login.
 
-### 6. Optional: scope git author identity too
+### 6. Optional: scope git commit identity too
 
-`.envrc` only changes auth. Commits will still use the user's *global* `git config user.name/user.email`. If the user wants commits in this folder to be authored as the scoped account too:
+`.envrc` only changes auth. Commits will still use the user's *global* `git config user.name/user.email`.
+
+If the user wants commits in this folder authored as the scoped account too, prefer the **env-var approach** unless the folder itself is already a git repo with stable per-repo identity needs.
+
+#### A. Env vars in `.envrc` (recommended for workspace folders)
+
+Works whether the directory is a git repo or not, and **auto-applies to every sub-repo** (clone/init) under it — no per-repo `git config` needed.
+
+First, fetch the target account's profile so you can offer a choice between the public email and the privacy-preserving GitHub noreply form:
 
 ```bash
-ID=$(gh api user --jq .id)
-LOGIN=$(gh api user --jq .login)
-git config user.name "$LOGIN"
-git config user.email "${ID}+${LOGIN}@users.noreply.github.com"
+direnv exec . gh api user --jq '{login, id, name, email}'
 ```
 
-Run with the scoped env active (use `direnv exec .` if the hook isn't reloaded yet). This sets *local* git config, leaving global identity untouched.
+Confirm with the user:
+- **name**: their real name (from `gh api user`) or the login slug
+- **email**: their public email (if shown), or the noreply form `<id>+<login>@users.noreply.github.com` (recommended — keeps the real email out of public commits while still attributing to the GitHub profile)
+
+Don't silently pick a format — privacy matters and the choice is often wrong by default.
+
+Then append to `.envrc`:
+
+```bash
+# Scope git commit identity to this folder (overrides any git config).
+# Applies to any git repo created/cloned under this directory.
+export GIT_AUTHOR_NAME="<name>"
+export GIT_AUTHOR_EMAIL="<email>"
+export GIT_COMMITTER_NAME="<name>"
+export GIT_COMMITTER_EMAIL="<email>"
+```
+
+Re-run `direnv allow .` and verify with a throw-away repo inside the scoped folder:
+
+```bash
+direnv exec . sh -c 'D=$(mktemp -d ./verify-XXXX) && cd "$D" && git init -q && git commit -q --allow-empty -m test && git log -1 --format="author: %an <%ae>"; cd - >/dev/null && rm -rf "$D"'
+```
+
+Note: env vars override `git config`. Inside this folder the user can't selectively commit as a different identity without explicitly unsetting/overriding the variables (`GIT_AUTHOR_NAME="X" GIT_AUTHOR_EMAIL="x@y" git commit ...`). Mention this if relevant.
+
+#### B. Local `git config` (only when the folder itself IS a git repo)
+
+If `git rev-parse --is-inside-work-tree` returns true, you can instead write *local* git config (`.git/config`) — simpler, but covers only the single repo, not sub-repos:
+
+```bash
+git config user.name "<name>"
+git config user.email "<email>"
+```
+
+Run with the scoped env active (use `direnv exec .` if the hook isn't reloaded yet). Leaves global identity untouched.
+
+---
 
 Only do this step if the user asks or it's clearly implied — don't silently overwrite their git author identity.
 
 ## Common pitfalls
 
 - **Hook not active yet.** After adding the hook to `.zshrc`/`.bashrc`, the *current* shell still doesn't have it. The fix: `source ~/.zshrc` or new terminal. If they need to push *right now* before reloading, suggest `direnv exec . git push`.
+- **Nested `.envrc` in cloned/sub-repos silently breaks scoping.** When a sub-directory under the scoped folder has its own `.envrc`, direnv loads *only* the inner one — env exports from the parent (`GH_TOKEN`, `GIT_AUTHOR_*`) are not inherited. Result: `gh` and `git` in that sub-repo fall back to global state with no error message. To inherit the parent, add `source_up` (or `source_up_if_exists`) at the top of the inner `.envrc`. Worth proactively checking if the user has clones of project repos under the scoped folder.
 - **Tool ignores `GH_TOKEN`.** Almost everything respects it (`gh`, `git` via gh credential helper, GitHub Actions runners). But VSCode's GitHub integration sometimes uses its own auth. The `.envrc` won't fix that.
 - **Token rotation.** Tokens stored by `gh auth login` rotate transparently — `gh auth token --user X` always returns the current one. So `.envrc` doesn't need updating.
 - **Multiple accounts in one folder.** Out of scope. `.envrc` exports a single `GH_TOKEN`; it can't multiplex by remote URL. Use submodules or split repos if you really need this.

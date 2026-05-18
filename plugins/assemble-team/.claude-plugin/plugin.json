@@ -1,0 +1,12 @@
+{
+  "name": "assemble-team",
+  "version": "0.1.0",
+  "description": "5-layer harness (Entry → Routing → Enrichment → Verification → Handoff) that converts a user plan into a safely spawned Claude Code agent team. Universal — works with any monorepo. Ports a planning-discipline pattern observed in oh-my-openagent (Prometheus) and oh-my-claudecode (plan/deep-interview/ralplan) into a reusable plugin.",
+  "author": {
+    "name": "skarl86",
+    "url": "https://github.com/skarl86"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/skarl86/claude-plugins/tree/main/plugins/assemble-team",
+  "repository": "https://github.com/skarl86/claude-plugins"
+}

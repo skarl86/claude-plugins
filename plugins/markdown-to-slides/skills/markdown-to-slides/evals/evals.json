@@ -1,0 +1,23 @@
+{
+  "skill_name": "markdown-to-slides",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "내가 정리한 글이 있는데 발표용으로 슬라이드 만들어줘. 마크다운: <fixture-path>/simple-intro.md. 8장 안쪽으로 나올 것 같아.",
+      "expected_output": "<fixture-dir>/simple-intro-slides/ 디렉토리 아래에 index.html과 slide-01.png ~ slide-NN.png. 라이트 테마. 1920x1080 비율의 retina PNG. 슬라이드 분할은 마크다운의 --- 구분자를 따름.",
+      "files": ["evals/fixtures/simple-intro.md"]
+    },
+    {
+      "id": 2,
+      "prompt": "이 문서를 PPT로 만들어줘. ASCII 흐름도가 들어 있어서 그 부분은 깨지지 않게 다이어그램으로 처리해줘. 입력: <fixture-path>/with-diagram.md",
+      "expected_output": "with-diagram-slides/ 아래 산출물. 마크다운의 ASCII 흐름도가 SVG/HTML 박스 다이어그램으로 변환되어 출력. <pre> 그대로 두지 않음. footer와 본문이 겹치지 않음.",
+      "files": ["evals/fixtures/with-diagram.md"]
+    },
+    {
+      "id": 3,
+      "prompt": "<fixture-path>/inventory-table.md 이거 슬라이드로 뽑아줘. 표가 길어서 한 슬라이드에 다 들어갈지 모르겠어.",
+      "expected_output": "inventory-table-slides/ 아래 산출물. 10행 이상 표가 footer를 침범하지 않게 폰트/패딩 자동 축소. 표 행 모두 보임.",
+      "files": ["evals/fixtures/inventory-table.md"]
+    }
+  ]
+}

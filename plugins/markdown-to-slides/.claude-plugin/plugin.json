@@ -1,0 +1,12 @@
+{
+  "name": "markdown-to-slides",
+  "version": "0.1.0",
+  "description": "Convert a markdown file into a 1920×1080 presentation HTML and per-slide Retina PNG images (3840×2160). No PowerPoint/Keynote required — single markdown in, slide deck out.",
+  "author": {
+    "name": "skarl86",
+    "url": "https://github.com/skarl86"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/skarl86/claude-plugins/tree/main/plugins/markdown-to-slides",
+  "repository": "https://github.com/skarl86/claude-plugins"
+}

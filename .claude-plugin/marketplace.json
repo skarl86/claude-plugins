@@ -29,6 +29,11 @@
       "name": "markdown-to-slides",
       "source": "./plugins/markdown-to-slides",
       "description": "Convert a markdown file into a 1920×1080 presentation HTML and per-slide Retina PNG images (3840×2160) via Playwright. Markdown in, slide deck out — no PowerPoint/Keynote."
+    },
+    {
+      "name": "assemble-team",
+      "source": "./plugins/assemble-team",
+      "description": "5-layer harness (Entry→Routing→Enrichment→Verification→Handoff) that converts a user plan into a safely spawned Claude Code agent team. Universal — works with any monorepo."
     }
   ]
 }

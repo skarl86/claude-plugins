@@ -25,6 +25,7 @@ The lead maps these to roles using `ROLES.md`.
 - automation flags (optional):
   - `automation: pr-create` — when all qa tasks are `✅` and worktree isolation is OFF, the lead runs `gh pr create --draft --base <default-branch>`. Merge is never automatic.
   - `automation: skip-qa` — suppress the default-added qa task (use for read-only investigative plans).
+  - `automation: allow-push` — pre-authorize the lead to run `git push -u origin <branch>` before `gh pr create`. Without this flag the lead asks once at PR time and proceeds only on explicit yes.
 
 ### Tasks (required)
 One line per task. Optional `[role:X]` hint at the end:
@@ -62,62 +63,63 @@ Items deliberately deferred to a human or later iteration:
 
 ---
 
-## Example plan (universal)
+## Example plan (universal — single writer)
+
+This example is intentionally a **single-writer** plan so that `worktree=off` is unambiguously correct and the `automation: pr-create` flow is end-to-end demonstrable. For plans with two or more code-modifying teammates, follow `GRILL_PLAN.md` step 4: `worktree=on` is required (and `automation: pr-create` then becomes unavailable until the user merges the branches manually).
 
 ```markdown
-# Plan: refund policy refresh across surfaces
+# Plan: refund-dialog copy refresh
 
 ## Why
-Q2 introduces a new refund policy. The UI copy, the refund API response, and any
-user-facing messaging must agree. Inconsistent wording across surfaces has been
-flagged by support as a recurring complaint source.
+Q2 introduces a new refund policy. The UI copy on the RefundDialog must reflect
+the policy change. Inconsistent wording has been flagged by support as a
+recurring complaint source. The backend response schema and the messaging
+templates have already been updated; this plan covers the UI surface only.
 
 ## Scope
-- apps/web/src/components/RefundDialog.tsx
-- services/payments/handlers/refund.py
-- packages/messaging/templates/refund.md
+- apps/web/src/components/RefundDialog.tsx (the only code-modifying scope)
 
 ## Constraints
-- worktree=off (the three scopes live in distinct, non-overlapping directories — file ownership separation is sufficient)
+- worktree=off (single code-modifying teammate; no Git index race)
 - permissions=skip
 - Conventional Commits
 - push / merge / deploy → human only
-- automation: pr-create  (lead creates a draft PR when all qa is `✅` AND worktree isolation is OFF; ready and merge remain human)
+- automation: pr-create  (lead creates a draft PR when qa is `✅` AND worktree isolation is OFF; ready and merge remain human)
 
 ## Tasks
 - [ ] [role:frontend] update RefundDialog copy to match the new policy
-- [ ] [role:backend] add `refund_eligibility_reason` to the refund response schema
-- [ ] [role:backend] update the refund message template under `packages/messaging/` (a second backend teammate; the lead names it `backend-b` in the L4 mapping because it owns a different scope, but the role hint stays `backend` — the `-b` suffix is a teammate name, not a role)
-- [ ] [role:reviewer] cross-review the three changes for wording, secrets, boolean defaults
-- [ ] [role:qa] (default-added) integration e2e on top of per-surface tests — the verdict gates the automation: pr-create flow
+- [ ] [role:reviewer] cross-review the change for wording, secrets, boolean defaults
+- [ ] [role:qa] (default-added) component test + RefundDialog e2e on top of the per-surface self-check — the verdict gates the automation: pr-create flow
 
 ## Definition of Done
-- All three surfaces committed on a branch from the default branch (Conventional Commits)
-- Per-surface tests pass (`pnpm test`, `pytest`)
+- The frontend change is committed on a branch from the default branch (Conventional Commits)
+- `pnpm test` passes in `apps/web`
 - reviewer: `✅` / `⚠️` / `❌` table delivered
-- qa: final verdict `전체 ✅` or English equivalent — gates the PR auto-creation
+- qa: final verdict `all ✅` (or the project's locale equivalent) — gates the PR auto-creation
 - automation: pr-create runs → draft PR opened; ready and merge remain human
 
 ## Out of scope
 - payment gateway changes
-- refund backend job changes
+- backend refund response schema (already updated in a previous plan)
+- messaging templates (already updated)
 - promoting the draft PR to ready or merging it (human only)
 
 ## Risks
-- wording drift between UI / API / messaging — reviewer must catch
+- wording drift between UI and the already-shipped backend message — reviewer must catch
 - a single qa `❌` blocks the automation: pr-create flow — fix and rerun
 ```
 
 When you invoke the assemble-team skill against this body (paste the plan and ask "assemble a team for this plan"), the lead will:
-1. Map the three scopes — RefundDialog → `frontend`, refund API handler → `backend`, messaging template → `backend-b` (a second backend instance for the non-overlapping scope)
-2. Add `[role:reviewer]` and the default `[role:qa]` to reach a 5-teammate team
+1. Map the one scope — `RefundDialog.tsx` → `frontend`
+2. Add `[role:reviewer]` and the default `[role:qa]` to reach a 3-teammate team (frontend writer + 2 read-only roles)
 3. Show the team mapping + ambiguity summary + `automation: pr-create` notice for approval
-4. Spawn with `worktree=off` (file ownership separation), `permissions=skip`, role bodies inline-injected
+4. Spawn with `worktree=off` (only one code-modifying teammate; no Git index race), `permissions=skip`, role bodies inline-injected
 5. After all teammates idle, check the qa verdict. If `✅` AND worktree isolation is OFF (which it is in this example), the lead:
    a. discovers the default branch — `DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)`;
    b. reconciles the no-auto-push guard — if `automation: pr-create` is set without `automation: allow-push` AND no explicit grilling consent was recorded, the lead asks the user once "Push the branch and create the draft PR? (yes / no)" and proceeds only on yes; otherwise it pushes via `git push -u origin "$(git rev-parse --abbrev-ref HEAD)"`;
    c. synthesizes `PR_TITLE` (one line, ≤ 70 chars, derived from the plan's `Why`) and `PR_BODY_FILE` (`$(mktemp)` containing the full body — plan `Why` + per-teammate report + qa verdict + reviewer summary banner when applicable);
    d. runs the noninteractive command exactly as L5 instructs:
+
 ```bash
 gh pr create --draft \
   --base "$DEFAULT_BRANCH" \
@@ -125,6 +127,7 @@ gh pr create --draft \
   --title "$PR_TITLE" \
   --body-file "$PR_BODY_FILE"
 ```
-   Both `--title` and `--body-file` MUST be present so `gh` never falls into an interactive editor and hangs the agent run.
 
-   If qa is not green or any precondition fails, the lead reports the failure to the user and stops without creating a PR.
+Both `--title` and `--body-file` MUST be present so `gh` never falls into an interactive editor and hangs the agent run.
+
+If qa is not green or any precondition fails, the lead reports the failure to the user and stops without creating a PR.

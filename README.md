@@ -20,6 +20,7 @@ Then install whichever plugin(s) you need:
 /plugin install blog-illustrate
 /plugin install ralph-bootstrap
 /plugin install markdown-to-slides
+/plugin install assemble-team
 ```
 
 ## Plugins
@@ -69,6 +70,12 @@ Turn a markdown file into a 1920×1080 presentation deck — single stacked HTML
 **Use when:** you've written something in markdown and want to present or share it without round-tripping through Keynote/PowerPoint, or you need static slide images for a blog post / async share.
 
 Output drops into `<input-stem>-slides/` next to the source — `index.html` (full deck stacked vertically) plus `slide-01.png … slide-NN.png`. No PowerPoint required; PNG-on-projector is more reliable than `.pptx` font fallbacks anyway.
+
+### [assemble-team](plugins/assemble-team)
+
+5-layer harness (Entry → Routing → Enrichment → Verification → Handoff) that converts a user-provided plan into a safely spawned Claude Code agent team. Universal — works with any monorepo.
+
+**Use when:** you have a plan with multiple parallelizable tasks across different scopes and you want to spawn a coordinated agent team with explicit ambiguity-resolution, role-mapping justification, and user approval before any teammate is created.
 
 ---
 

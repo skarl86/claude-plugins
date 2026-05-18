@@ -19,6 +19,7 @@ Then install whichever plugin(s) you need:
 /plugin install claude-session-to-md
 /plugin install blog-illustrate
 /plugin install ralph-bootstrap
+/plugin install markdown-to-slides
 ```
 
 ## Plugins
@@ -60,6 +61,14 @@ Bootstrap a [Ralph loop](https://ghuntley.com/ralph/) scaffold from a one-senten
 **Use when:** you have a vague but non-trivial goal and want Claude to grind on it autonomously across many iterations, instead of micromanaging each step. Ambiguity becomes `[ASSUMPTION]` markers in the specs (greppable), not interview questions.
 
 `PROMPT.md` declares **two activation modes** — wrapper script (fresh Claude per iteration) and in-session (current Claude becomes the loop body) — and explicitly forbids phase-boundary check-ins like "P0 done, continue with P1?", so the loop doesn't stall at natural seams.
+
+### [markdown-to-slides](plugins/markdown-to-slides)
+
+Turn a markdown file into a 1920×1080 presentation deck — single stacked HTML plus per-slide Retina PNGs (3840×2160) — via Playwright. Splits on `---` horizontal rules first, then `##`/`#` headings, with table- and diagram-aware layouts and a light theme tuned for conference-room projectors.
+
+**Use when:** you've written something in markdown and want to present or share it without round-tripping through Keynote/PowerPoint, or you need static slide images for a blog post / async share.
+
+Output drops into `<input-stem>-slides/` next to the source — `index.html` (full deck stacked vertically) plus `slide-01.png … slide-NN.png`. No PowerPoint required; PNG-on-projector is more reliable than `.pptx` font fallbacks anyway.
 
 ---
 

@@ -24,6 +24,11 @@
       "name": "ralph-bootstrap",
       "source": "./plugins/ralph-bootstrap",
       "description": "Bootstrap a Ralph loop scaffold (specs/, TODO.md, PROMPT.md, decisions.md, progress.md) from a one-sentence goal — state files for running Claude in a fixed-prompt while-loop."
+    },
+    {
+      "name": "markdown-to-slides",
+      "source": "./plugins/markdown-to-slides",
+      "description": "Convert a markdown file into a 1920×1080 presentation HTML and per-slide Retina PNG images (3840×2160) via Playwright. Markdown in, slide deck out — no PowerPoint/Keynote."
     }
   ]
 }

@@ -2,3 +2,6 @@
 
 # Skill development workspaces (per-skill, used for evals/iteration)
 skills/*-workspace/
+
+# Local-only planning docs (must not be published with marketplace content)
+docs/superpowers/plans/

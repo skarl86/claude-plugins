@@ -21,6 +21,7 @@ Then install whichever plugin(s) you need:
 /plugin install ralph-bootstrap
 /plugin install markdown-to-slides
 /plugin install assemble-team
+/plugin install goalify
 ```
 
 ## Plugins
@@ -76,6 +77,12 @@ Output drops into `<input-stem>-slides/` next to the source — `index.html` (fu
 5-layer harness (Entry → Routing → Enrichment → Verification → Handoff) that converts a user-provided plan into a safely spawned Claude Code agent team. Universal — works with any monorepo.
 
 **Use when:** you have a plan with multiple parallelizable tasks across different scopes and you want to spawn a coordinated agent team with explicit ambiguity-resolution, role-mapping justification, and user approval before any teammate is created.
+
+### [goalify](plugins/goalify)
+
+Convert a rough task prompt into a `/goal` condition statement that actually terminates. Claude Code's `/goal` evaluator is a small model that only reads the conversation transcript — it can't run tools — so vague goals ("make the code better") never resolve. goalify rewrites the prompt into the four elements that work: a measurable end state, verification commands **confirmed to exist** in the project (it reads `package.json` / `Makefile` instead of inventing commands), anti-cheat constraints (no test skipping, no `eslint-disable`), and a turn bound.
+
+**Use when:** you want to hand a task to `/goal` (run-until-done autonomous mode) but your completion criteria are fuzzy. Subjective goals get converted to measurable proxies or honestly flagged as a bad fit; multi-goal prompts get split into a sequential `/goal` series (one active goal per session). Every inferred assumption is surfaced in a 가정/확인 필요 table so you only review what it guessed, not write a spec.
 
 ---
 

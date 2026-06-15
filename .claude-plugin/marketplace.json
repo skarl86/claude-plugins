@@ -39,6 +39,16 @@
       "name": "goalify",
       "source": "./plugins/goalify",
       "description": "Convert any rough task prompt into a working /goal condition statement (measurable end state + real verification commands + anti-cheat constraints + turn bound) for Claude Code's run-until-done goal mode."
+    },
+    {
+      "name": "session-handover",
+      "source": "./plugins/session-handover",
+      "description": "Hand a long-running task to the next session without loss — a source-of-truth handover doc (work location, push state, remaining steps, live traps, creds-by-name) plus a paste-ready kickoff prompt that points at it."
+    },
+    {
+      "name": "finish-and-cleanup",
+      "source": "./plugins/finish-and-cleanup",
+      "description": "Standardize the tail of a work session — PR merge → deploy watch → smoke check → worklog → worktree/branch/resource cleanup → main refresh — as a stepwise checklist. Repo-neutral via a fill-in per-project table."
     }
   ]
 }

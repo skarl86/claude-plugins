@@ -1,0 +1,12 @@
+{
+  "name": "session-handover",
+  "version": "0.1.0",
+  "description": "Hand a long-running task to the next session without loss. Produces two artifacts in a standard format: a source-of-truth handover doc (work location, push state, remaining steps, live traps, creds-by-name) and a paste-ready kickoff prompt that points at it — so the next session resumes immediately without re-exploring.",
+  "author": {
+    "name": "skarl86",
+    "url": "https://github.com/skarl86"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/skarl86/claude-plugins/tree/main/plugins/session-handover",
+  "repository": "https://github.com/skarl86/claude-plugins"
+}

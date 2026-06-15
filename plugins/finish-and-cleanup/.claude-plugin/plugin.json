@@ -1,0 +1,12 @@
+{
+  "name": "finish-and-cleanup",
+  "version": "0.1.0",
+  "description": "Standardize the tail of a work session — PR merge → deploy watch → smoke check → worklog → worktree/branch/resource cleanup → main refresh — as a stepwise checklist where each step proceeds only after the previous one is confirmed. Repo-neutral: merge base, deploy trigger, and smoke method come from a fill-in per-project table or the repo's own CLAUDE.md / workflows.",
+  "author": {
+    "name": "skarl86",
+    "url": "https://github.com/skarl86"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/skarl86/claude-plugins/tree/main/plugins/finish-and-cleanup",
+  "repository": "https://github.com/skarl86/claude-plugins"
+}

@@ -22,6 +22,8 @@ Then install whichever plugin(s) you need:
 /plugin install markdown-to-slides
 /plugin install assemble-team
 /plugin install goalify
+/plugin install session-handover
+/plugin install finish-and-cleanup
 ```
 
 ## Plugins
@@ -83,6 +85,18 @@ Output drops into `<input-stem>-slides/` next to the source — `index.html` (fu
 Convert a rough task prompt into a `/goal` condition statement that actually terminates. Claude Code's `/goal` evaluator is a small model that only reads the conversation transcript — it can't run tools — so vague goals ("make the code better") never resolve. goalify rewrites the prompt into the four elements that work: a measurable end state, verification commands **confirmed to exist** in the project (it reads `package.json` / `Makefile` instead of inventing commands), anti-cheat constraints (no test skipping, no `eslint-disable`), and a turn bound.
 
 **Use when:** you want to hand a task to `/goal` (run-until-done autonomous mode) but your completion criteria are fuzzy. Subjective goals get converted to measurable proxies or honestly flagged as a bad fit; multi-goal prompts get split into a sequential `/goal` series (one active goal per session). Every inferred assumption is surfaced in a 가정/확인 필요 table so you only review what it guessed, not write a spec.
+
+### [session-handover](plugins/session-handover)
+
+Hand a long-running task to the next session without loss. Produces two artifacts in a fixed format: a **source-of-truth handover doc** (exact work location, **unpushed-commit state**, numbered remaining steps, live traps / do-not-touch, credentials by name not value) and a **paste-ready kickoff prompt** that points at it — so the next session resumes immediately instead of re-exploring.
+
+**Use when:** context is near its limit and you're about to `/compact`, or you're stopping today and resuming tomorrow / on another machine. The doc is the source of truth; the prompt only points at it — no information lives only in the prompt.
+
+### [finish-and-cleanup](plugins/finish-and-cleanup)
+
+Standardize the tail of a work session: **PR merge → deploy watch → smoke check → worklog → worktree/branch/resource cleanup → main refresh**, as a checklist where each step proceeds only after the previous one is confirmed. Deploy-watch handles the common `gh run watch` timeout by re-arming or falling back to polling, and cleanup runs **only when you explicitly signal you're wrapping up** — a merge alone never triggers branch/worktree deletion.
+
+**Use when:** a feature/bugfix is done and you say "merge it", "ship it", or "clean up". Repo-neutral — merge base, deploy trigger, and smoke method come from a fill-in per-project table or the repo's own `CLAUDE.md` / `.github/workflows`. Includes a discard variant (drop the branch without merging) for throwaway runs.
 
 ---
 
